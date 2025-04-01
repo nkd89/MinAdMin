@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: minadmin-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: min_ad_min
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - app_network
+
+networks:
+  app_network:
+
+volumes:
+  mysql_data:

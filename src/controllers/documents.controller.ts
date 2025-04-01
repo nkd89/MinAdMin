@@ -27,6 +27,12 @@ export class DocumentsController {
     return this.documentsService.findOne(id);
   }
 
+  @Get('/user/:user_id')
+  @ApiOperation({ summary: 'Получить документ по ID пользователя' })
+  findByUser(@Param('user_id') id: number) {
+    return this.documentsService.findByUser(id);
+  }
+
   @Put(':id')
   @ApiOperation({ summary: 'Обновить документ по ID' })
   update(@Param('id') id: number, @Body() docData: CreateDocumentDto) {

@@ -11,9 +11,14 @@ export class UsersService {
   ) {}
 
   async create(data: Partial<User>): Promise<User> {
-    const existingUser = await this.userRepository.findOne({ where: { email: data.email } });
+    const existingUser = await this.userRepository.findOne({
+      where: { email: data.email },
+    });
     if (existingUser) {
-      throw new HttpException('User with this email already exists', HttpStatus.CONFLICT);
+      throw new HttpException(
+        'User with this email already exists',
+        HttpStatus.CONFLICT,
+      );
     }
     const user = this.userRepository.create(data);
     return this.userRepository.save(user);
@@ -24,7 +29,17 @@ export class UsersService {
   }
 
   findOne(id: number): Promise<User | null> {
-    return this.userRepository.findOne({ where: { id }, relations: ['documents'] });
+    return this.userRepository.findOne({
+      where: { id },
+      relations: ['documents'],
+    });
+  }
+
+  findByEmail(email: string): Promise<User | null> {
+    return this.userRepository.findOne({
+      where: { email: email },
+      relations: ['documents'],
+    });
   }
 
   async update(id: number, data: Partial<User>): Promise<User | null> {
@@ -33,6 +48,19 @@ export class UsersService {
     return user;
   }
 
+  async login(email: string, pwd: string): Promise<any> {
+    const user = await this.findByEmail(email);
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    if (user.password !== pwd) {
+      return { correctPassword: user.password };
+    }
+
+    return user;
+  }
 
   async remove(id: number): Promise<void> {
     await this.userRepository.delete(id);

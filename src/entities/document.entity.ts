@@ -12,6 +12,9 @@ export class Document {
   @Column({ type: 'json' })
   document: Record<string, any>;
 
+  @Column({nullable: true})
+  user_id: number;
+
   @ManyToOne(() => User, (user) => user.documents, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user: User;

@@ -1,15 +1,28 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+  Req,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { UsersService } from 'src/services/users.service';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { User } from 'src/entities/user.entity';
+import { LoginUserDto } from 'src/dto/login-user.dto';
 
 @ApiTags('users')
+@UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  @Post('/register')
   @ApiOperation({ summary: 'Создать пользователя' })
   @ApiResponse({ status: 201, description: 'Пользователь создан' })
   create(@Body() body: any): Promise<User> {
@@ -39,5 +52,15 @@ export class UsersController {
   @ApiOperation({ summary: 'Удалить пользователя по ID' })
   remove(@Param('id') id: number) {
     return this.usersService.remove(id);
+  }
+
+  @Post('login')
+  @ApiOperation({ summary: 'Авторизация пользователя по email и паролю' })
+  @ApiResponse({
+    status: 200,
+    description: 'Успешный логин или возврат корректного пароля',
+  })
+  async login(@Body() loginDto: LoginUserDto) {
+    return this.usersService.login(loginDto.email, loginDto.password);
   }
 }
