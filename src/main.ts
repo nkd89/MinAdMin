@@ -13,23 +13,20 @@ async function bootstrap() {
     transform: true, // приведёт типы (например, строку в число)
   }));
 
-  app.enableCors({
-      origin: ['http://localhost:3000', 'http://api.izvenyaisya.ru', 'https://api.izvenyaisya.ru', 'http://izvenyaisya.ru', 'https://izvenyaisya.ru', 'http://hokaton.project'],
-      methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    });
-
-
+  
+  
   const config = new DocumentBuilder()
-    .setTitle('My API')
-    .setDescription('Автогенерация через Swagger')
-    .setVersion('1.0')
-    .addTag('users')
+  .setTitle('My API')
+  .setDescription('Автогенерация через Swagger')
+  .setVersion('1.0')
+  .addTag('users')
     .addTag('documents')
     .build();
-
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
-
+    
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api', app, document);
+    
+  app.enableCors();
   await app.listen(3006);
 }
 bootstrap();
