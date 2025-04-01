@@ -7,11 +7,11 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
 
-app.useGlobalPipes(new ValidationPipe({
-  whitelist: true, // удалит лишние поля
-  forbidNonWhitelisted: true, // ошибка, если поле лишнее
-  transform: true, // приведёт типы (например, строку в число)
-}));
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true, // удалит лишние поля
+    forbidNonWhitelisted: true, // ошибка, если поле лишнее
+    transform: true, // приведёт типы (например, строку в число)
+  }));
 
   app.enableCors({
       origin: ['http://localhost:3000', 'http://api.izvenyaisya.ru', 'https://api.izvenyaisya.ru', 'http://izvenyaisya.ru', 'https://izvenyaisya.ru', 'http://hokaton.project'],
