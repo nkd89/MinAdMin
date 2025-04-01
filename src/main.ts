@@ -13,6 +13,11 @@ app.useGlobalPipes(new ValidationPipe({
   transform: true, // приведёт типы (например, строку в число)
 }));
 
+  app.enableCors({
+      origin: ['http://localhost:3000', 'http://api.izvenyaisya.ru', 'https://api.izvenyaisya.ru', 'http://izvenyaisya.ru', 'https://izvenyaisya.ru', 'http://hokaton.project'],
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    });
+
 
   const config = new DocumentBuilder()
     .setTitle('My API')
