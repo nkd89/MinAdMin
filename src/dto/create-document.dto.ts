@@ -11,7 +11,7 @@ export class CreateDocumentDto {
     example: {
       number: '123456',
       issueDate: '2023-01-01',
-      issuedBy: 'Gov Authority'
+      issuedBy: 'Gov Authority',
     },
     description: 'JSON-структура документа',
   })
@@ -22,5 +22,5 @@ export class CreateDocumentDto {
   @ApiProperty({ example: 1, description: 'ID пользователя' })
   @IsNotEmpty()
   @IsNumber()
-  userId: number;
+  user_id: number;
 }

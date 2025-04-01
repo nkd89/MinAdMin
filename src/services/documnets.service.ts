@@ -20,7 +20,16 @@ export class DocumentsService {
   }
 
   findOne(id: number): Promise<Document | null> {
-    return this.documentRepository.findOne({ where: { id }, relations: ['user'] });
+    return this.documentRepository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
+  }
+
+  findByUser(user_id: number): Promise<Document[] | null> {
+    return this.documentRepository.find({
+      where: { user_id: user_id },
+    });
   }
 
   async update(id: number, data: Partial<Document>): Promise<Document | null> {
